@@ -1,0 +1,49 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>App Stream 2.0 Authenticator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body { font-family: Arial, sans-serif; background-image:
+      url('https://gtngroup.com/wp-content/uploads/2021/12/IFC-pledges-cutting-cross-border-invesments-2-1024x525.png');
+      /* Replace with your image URL */ background-size: cover; /* Cover the
+      entire screen */ background-position: center; /* Center the image */
+      display: flex; align-items: center; justify-content: center; height:
+      100vh; /* Full height of the viewport */ margin: 0; /* Remove default
+      margin */ color: white; /* Change text color to white for better
+      visibility */ } .container { text-align: center; background-color:
+      rgba(255, 255, 255, 0.9); /* White background with transparency */
+      border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); padding:
+      30px; width: 300px; height: 300px; /* Fixed width for container */ } h1 {
+      color: #333333; /* Change this if needed */ margin-bottom: 20px; } p {
+      color: #666666; /* Change this if needed */ margin-bottom: 20px; } a {
+      display: inline-block; text-decoration: none; color: #ffffff;
+      background-color: #007BFF; /* Bootstrap primary color */ padding: 10px
+      15px; border-radius: 5px; transition: background-color 0.3s; } a:hover {
+      background-color: #0056b3; /* Darker shade on hover */ } .welcome-text {
+      font-size: 18px; margin-bottom: 20px; }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>App Stream 2.0 Authenticator</h1>
+      {{#if isAuthenticated}}
+        <p class="welcome-text">Hi {{username}}!</p>
+        <a href="/users/id">View ID token claims</a>
+        <br />
+        <a href="/auth/acquireToken">Acquire a token to call the Microsoft Graph
+          API</a>
+        <br />
+        <a href="/auth/signout">Sign out</a>
+      {{else}}
+        <p class="welcome-text">Welcome to App Stream</p>
+        <a href="/auth/signin">Sign in With Mocrosoft</a>
+      {{/if}}
+    </div>
+  </body>
+</html>
