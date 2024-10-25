@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #0033cc, #66ccff);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+
+        .timer-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .countdown {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a73e8;
+            margin: 1rem 0;
+        }
+
+        .message {
+            color: #5f6368;
+            margin-bottom: 1rem;
+        }
+
+        .expired-message {
+            color: #d93025;
+            font-weight: bold;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(17, 65, 87, 0.2);
+            animation: float 30s ease-in infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+            }
+        }
+
+        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-duration: 8s; }
+        .bubble:nth-child(2) { width: 40px; height: 40px; left: 20%; animation-duration: 12s; }
+        .bubble:nth-child(3) { width: 60px; height: 60px; left: 30%; animation-duration: 10s; }
+        .bubble:nth-child(4) { width: 120px; height: 120px; left: 50%; animation-duration: 15s; }
+        .bubble:nth-child(5) { width: 90px; height: 90px; left: 70%; animation-duration: 9s; }
+
+        .retry-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .retry-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <div class="timer-container">
+        <h1>User should wait until session starts</h1>
+        <div id="message" class="message"></div>
+        <div id="countdown" class="countdown"></div>
+        <a href="/" class="retry-button">Return to Home</a>
+    </div>
+
+    <script>
+        function updateTimer() {
+            const startTime = new Date("{{startTime}}").getTime();
+            const endTime = new Date("{{endTime}}").getTime();
+            const now = new Date().getTime();
+
+            if (now < startTime) {
+                const distance = startTime - now;
+                displayCountdown(distance, 'Session starts in:');
+            }
+            else if (now < endTime) {
+                const distance = endTime - now;
+                displayCountdown(distance, 'Session ends in:');
+            } 
+            else {
+                clearInterval(timerInterval); // Stop the timer
+                document.getElementById('message').innerHTML = '<div class="expired-message">Session Starting</div>';
+                document.getElementById('countdown').innerHTML = '0h 0m 0s';
+                setTimeout(() => window.location.reload(), 1000); // Reload page once after session end
+            }
+        }
+
+        function displayCountdown(distance, message) {
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('message').innerHTML = message;
+            document.getElementById('countdown').innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Update the timer immediately and then every second
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+    </script>
+</body>
+
+</html>

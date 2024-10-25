@@ -162,7 +162,6 @@ class AuthProvider {
       }
     };
   }
-
   logout(options = {}) {
     return (req, res, next) => {
       /**

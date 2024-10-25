@@ -1,0 +1,55 @@
+<!-- views/error.hbs -->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error</title>
+    <style>
+      /* Global Styles */ * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: Arial, sans-serif; background: linear-gradient(to
+      bottom right, #0033cc, #66ccff); /* Blue gradient background */ overflow:
+      hidden; /* Prevent scrollbars from appearing */ display: flex;
+      align-items: center; justify-content: center; height: 100vh; margin: 0;
+      color: white; position: relative; /* Necessary for the bubble animation */
+      } /* Container Styles */ .error-container { max-width: 500px; padding:
+      40px 30px; background-color: #fff; border-radius: 12px; box-shadow: 0 10px
+      20px rgba(0, 0, 0, 0.2); text-align: center; animation: slideDown 0.5s
+      ease forwards; opacity: 0; transform: translateY(-20px); } @keyframes
+      slideDown { to { opacity: 1; transform: translateY(0); } } .error-title {
+      font-size: 28px; color: #ff416c; font-weight: bold; margin-bottom: 15px; }
+      .error-message { font-size: 16px; color: #6c757d; margin-bottom: 25px; }
+      /* Button Styling */ .retry-button { display: inline-block; padding: 12px
+      25px; background-color: #007bff; color: #fff; border: none; border-radius:
+      50px; cursor: pointer; font-size: 16px; font-weight: bold;
+      text-decoration: none; transition: background 0.3s ease, transform 0.2s
+      ease; } .retry-button:hover { background-color: #0056b3; transform:
+      scale(1.05); } .retry-button:focus { outline: none; } .bubble { position:
+      absolute; border-radius: 50%; background-color: rgba(17, 65, 87, 0.2);
+      animation: float 30s ease-in infinite; opacity: 0.5; } /* Keyframe for
+      bubble floating animation */ @keyframes float { 0% { transform:
+      translateY(0) scale(1); } 100% { transform: translateY(-100vh) scale(1.5);
+      } } .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%;
+      animation-duration: 8s; } .bubble:nth-child(2) { width: 40px; height:
+      40px; left: 20%; animation-duration: 12s; } .bubble:nth-child(3) { width:
+      60px; height: 60px; left: 30%; animation-duration: 10s; }
+      .bubble:nth-child(4) { width: 120px; height: 120px; left: 50%;
+      animation-duration: 15s; } .bubble:nth-child(5) { width: 90px; height:
+      90px; left: 70%; animation-duration: 9s; }
+    </style>
+  </head>
+  <body>
+    <!-- Bubble elements for background animation -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <div class="error-container">
+      <h1 class="error-title">Oops! Something went wrong</h1>
+      <p class="error-message">{{errorMessage}}</p>
+      <a href="/" class="retry-button">Return to Home</a>
+    </div>
+  </body>
+</html>

@@ -55,11 +55,10 @@ router.get(
   })
 );
 
-// Ensure user is authenticated before accessing the AppStream URL
 router.get("/getAppStreamUrl", async (req, res, next) => {
   console.log(req.isAuthenticated());
   if (!req.session.isAuthenticated && !req.isAuthenticated()) {
-    return res.redirect("/auth/signin"); // Redirect to sign-in if not authenticated
+    return res.redirect("/auth/signin");
   }
 
   const email =
@@ -72,12 +71,29 @@ router.get("/getAppStreamUrl", async (req, res, next) => {
     const response = await axios.get(
       `https://kecsb4zutd.execute-api.ap-south-1.amazonaws.com/dev/as-user?userId=${email}`
     );
+    const data = response.data;
 
-    const appStreamUrl = response.data;
-    if (appStreamUrl && appStreamUrl.stream_url) {
-      return res.redirect(appStreamUrl.stream_url);
+    const start_time = new Date(data.start_time);
+
+    console.log(start_time);
+
+    // Check if the response contains stream_url
+    if (data.stream_url) {
+      return res.redirect(data.stream_url);
+    } else if (
+      data.statusCode === 403 &&
+      data.message === "User should wait until session starts"
+    ) {
+      
+      // Pass start time and current time to countdown view
+      return res.render("countdown", {
+        message: data.message,
+        startTime: start_time,
+        nowTime: data.now_time,
+      });
     } else {
-      throw new Error(appStreamUrl.message);
+      // Handle other error cases
+      res.render("aserror", { errorMessage: data.message });
     }
   } catch (error) {
     next(error);
