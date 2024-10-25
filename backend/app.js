@@ -7,6 +7,7 @@ require("dotenv").config();
 
 var path = require("path");
 var express = require("express");
+const passport = require("./routes/passport-config");
 var session = require("express-session");
 var createError = require("http-errors");
 var cookieParser = require("cookie-parser");
@@ -34,6 +35,9 @@ app.use(
     },
   })
 );
+// Initialize Passport and restore authentication state, if any, from the session.
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
